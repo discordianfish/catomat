@@ -2,20 +2,30 @@ FROM resin/%%RESIN_MACHINE_NAME%%-systemd
 ENV INITSYSTEM on
 ENV BUILD_DEPS libmicrohttpd-dev libjansson-dev libnice-dev \
     libssl-dev libsrtp-dev libsofia-sip-ua-dev libglib2.0-dev \
-    libopus-dev libogg-dev gengetopt libtool make automake
+    libopus-dev libogg-dev gengetopt libtool make automake cmake g++ xz-utils \
+    libgstreamer-plugins-base1.0-dev libraspberrypi-dev
 RUN apt-get -qy update && apt-get -qy install $BUILD_DEPS dropbear curl \
     libraspberrypi-bin vlc gstreamer1.0-tools gstreamer1.0-plugins-good \
     gstreamer1.0-plugins-bad ca-certificates nginx pkg-config libjansson4 \
     libnice10 libsofia-sip-ua0 libmicrohttpd10 \
     && useradd -G video user \
+    \
     && curl -L https://github.com/meetecho/janus-gateway/archive/master.tar.gz \
     | tar -C /usr/src -xzf - \
     && cd /usr/src/janus-gateway-master && sh autogen.sh \
     && ./configure --disable-websockets --disable-data-channels \
     --disable-rabbitmq --disable-docs --prefix=/opt/janus \
     && make && make install && make configs \
-    && rm -rf /usr/src/janus-gateway-master && apt-get purge -qy $BUILD_DEPS \
-    && apt-get clean && apt-get -qy autoremove && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    \
+    && curl -L  https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-1.2.0.tar.xz \
+      | tar -C /usr/src -xJf - \
+    && cd /usr/src/gst-omx-1.2.0 \
+    && ./configure --with-omx-target=rpi --with-omx-header-path=/opt/vc/include/IL \
+    --prefix=/usr --libdir=/usr/lib/arm-linux-gnueabihf --sysconfdir=/etc \
+    && make && make install \
+    \
+    && apt-get purge -qy $BUILD_DEPS && apt-get clean && apt-get -qy autoremove \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/src/* \
     && curl -L https://github.com/discordianfish/catomat-api/releases/download/0.0.1/catomat-api-v0.0.1-arm.tar.gz \
     | tar -C /bin -xzf -
 

@@ -17,7 +17,12 @@
     width: 75%;
   }
   #container #start {
-    width: 100%;
+    float: left;
+    width: 49%;
+  }
+  #container #startJpeg {
+    float: right;
+    width: 49%;
   }
   #dispenseA { 
     float: left;
@@ -27,7 +32,7 @@
     float: right;
     width: 49%;
   }
-  #stream video {
+  #stream video,img {
     width: 100%;
   }
 </style>
@@ -36,12 +41,16 @@
 <body>
   <div id="container">
     <div id="stream">
-    <button id="start">Connect</button>
-    Click connect to start stream!
+      <p>Select streaming option: <br />
+      <button id="start">WebRTC / h264</button>
+      <button id="startJpeg">jpg autorefresh</button>
+      </p>
     </div>
     <section id="dispenser">
+      <p>Dispensers: <br />
       <button id="dispenseA">A</button>
       <button id="dispenseB">B</button>
+      </p>
     </section>
   </div>
 </body>
