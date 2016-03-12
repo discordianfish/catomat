@@ -1,0 +1,24 @@
+FROM resin/%%RESIN_MACHINE_NAME%%-systemd
+ENV INITSYSTEM on
+ENV BUILD_DEPS libmicrohttpd-dev libjansson-dev libnice-dev \
+    libssl-dev libsrtp-dev libsofia-sip-ua-dev libglib2.0-dev \
+    libopus-dev libogg-dev gengetopt libtool make automake
+RUN apt-get -qy update && apt-get -qy install $BUILD_DEPS dropbear curl \
+    libraspberrypi-bin vlc gstreamer1.0-tools gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad ca-certificates nginx pkg-config libjansson4 \
+    libnice10 libsofia-sip-ua0 libmicrohttpd10 \
+    && useradd -G video user \
+    && curl -L https://github.com/meetecho/janus-gateway/archive/master.tar.gz \
+    | tar -C /usr/src -xzf - \
+    && cd /usr/src/janus-gateway-master && sh autogen.sh \
+    && ./configure --disable-websockets --disable-data-channels \
+    --disable-rabbitmq --disable-docs --prefix=/opt/janus \
+    && make && make install && make configs \
+    && rm -rf /usr/src/janus-gateway-master && apt-get purge -qy $BUILD_DEPS \
+    && apt-get clean && apt-get -qy autoremove && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && curl -L https://github.com/discordianfish/catomat-api/releases/download/0.0.1/catomat-api-v0.0.1-arm.tar.gz \
+    | tar -C /bin -xzf -
+
+COPY files/ /
+RUN systemctl enable janus raspivid2janus catomat-server
+CMD [ "/app" ]

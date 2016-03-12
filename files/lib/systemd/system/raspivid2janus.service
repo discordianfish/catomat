@@ -1,0 +1,11 @@
+[Unit]
+Description=gstreamer pipeline feeding camera to Janus WebRTC gateway
+After=janus.service
+
+[Service]
+Type=simple
+ExecStart=/bin/raspivid2janus
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script type="text/javascript" src="contrib/adapter.js"></script>
+<script type="text/javascript" src="contrib/janus.js"></script>
+<script type="text/javascript" src="catomat.js"></script>
+<style text="text/css">
+  #container {
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 350px;
+    max-width: 1100px;
+    width: 75%;
+  }
+  #container #start {
+    width: 100%;
+  }
+  #dispenseA { 
+    float: left;
+    width: 49%;
+  }
+  #dispenseB { 
+    float: right;
+    width: 49%;
+  }
+  #stream video {
+    width: 100%;
+  }
+</style>
+<title>Cat-o-Mat</title>
+</head>
+<body>
+  <div id="container">
+    <div id="stream">
+    <button id="start">Connect</button>
+    Click connect to start stream!
+    </div>
+    <section id="dispenser">
+      <button id="dispenseA">A</button>
+      <button id="dispenseB">B</button>
+    </section>
+  </div>
+</body>
+</html>

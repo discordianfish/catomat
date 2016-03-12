@@ -1,0 +1,11 @@
+[Unit]
+Description=Webserver to control dispenser
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/catomat-server -m 45
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
