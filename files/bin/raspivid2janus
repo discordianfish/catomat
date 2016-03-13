@@ -3,7 +3,7 @@
 [ -d /client/cam ] || mkdir /client/cam
 grep /client/cam /proc/mounts || mount -o size=1m -t tmpfs none /client/cam
 
-raspivid --verbose --nopreview -hf -vf --width 640 --height 480 \
+raspivid --verbose --nopreview -vf --width 640 --height 480 \
   --framerate 25 --bitrate 1000000 --profile baseline --timeout 0 -o - \
   | gst-launch-1.0 -v fdsrc ! tee name=t \
     t. ! queue ! h264parse ! rtph264pay config-interval=1 pt=96 \
