@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/bin/catomat-server -m 45
+ExecStart=/bin/catomat-server -m 45 -t 2ms
 Restart=always
 
 [Install]
