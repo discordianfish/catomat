@@ -14,5 +14,5 @@ fi
 
 # udevd -daemon
 # mount -t devtmpfs udev /dev/
-modprobe bcm2835_v4l2
+modprobe bcm2835-v4l2
 chmod 666 /dev/video0
